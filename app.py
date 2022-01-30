@@ -1,25 +1,43 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import random
-
-
 app = Flask(__name__)
 CORS(app)
-# global ListOfColors
-ListOfColors = []
-SecretKey=['green','blue','red']
-currentKey=['','','','']
+
+ListOfColors=['maroon',
+    'red',
+    'purple',
+    'fuchsia',
+    'green',
+    'olive',
+    'yellow',
+    'navy',
+    'blue',
+    'teal',
+    'aqua',
+    'white',
+    'black',
+    'gray',
+    'orange',
+    'aquamarine']	
+
+
+SecretKey=['red','blue','green','black']
+currentKey=[]
+
 
 @app.route('/')
 def dafault_route():
-    return 'Auth server '
+    StrColors=""
+    for color in ListOfColors:
+        StrColors += " <br> " + color
+    return 'Auth server <br>  <br> ListOfColors: ' + StrColors
 
 # отправка сообщений
 @app.route("/sendColor", methods=['POST'])
 def sendColor():
     msg=""
     msg = request.json
-    
     color = msg['color']
     print(color)
     currentKey.insert(0,color)
@@ -49,7 +67,5 @@ def status():
     return allcolors
 
 if __name__ == '__main__':
-    ListOfColors.append('red')
-    ListOfColors.append('blue')
-    ListOfColors.append('green')
+    random.shuffle(ListOfColors)
     app.run(host="0.0.0.0")
